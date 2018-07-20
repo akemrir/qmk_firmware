@@ -21,18 +21,33 @@
 #define _V60_FN 1
 #define _RGB 2
 #define _COLORS 3
+#define _CONTR 4
+#define _POE 5
 
-enum unicode_name {
-  GRIN, // grinning face 😊
-  TJOY, // tears of joy 😂
-  SMILE, // grining face with smiling eyes 😁
+#ifdef UNICODEMAP_ENABLE        // For Unicode characters larger than 0x8000. Send with X(<unicode>)
+enum Ext_Unicode{
+    PENGUIN = 0,
+    BOAR,
+    MONKEY,
+    DRAGON,
+    CHICK,
+    TUMBLER
 };
-
 const uint32_t PROGMEM unicode_map[] = {
-  [GRIN] = 0x1F600,
-  [TJOY] = 0x1F602,
-  [SMILE] = 0x1F601,
+    [PENGUIN]   = 0x1F427,
+    [BOAR]      = 0x1F417,
+    [MONKEY]    = 0x1F412,
+    [DRAGON]    = 0x1F409,
+    [CHICK]     = 0x1F425,
+    [TUMBLER]   = 0x1F943
 };
+#define PENGY   X(PENGUIN)
+#define BOARY   X(BOAR)
+#define MNKY    X(MONKEY)
+#define DRGN    X(DRAGON)
+#define DUCK    X(CHICK)
+#define TMBL    X(TUMBLER)
+#endif
 
 /* UNICODEMAP_ENABLE */
 /* X(SMILE) */
@@ -55,9 +70,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_DEF] = LAYOUT_60_ansi(
       KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, \
       KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, \
-      LT(_RGB, KC_CAPS), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  \
-      KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT,   \
-      KC_LCTL, KC_LGUI, KC_LALT,          KC_SPC,                                      KC_RALT,   MO(_V60_FN), LT(_COLORS, KC_APP),  KC_RCTL \
+      MO(_RGB), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  \
+      KC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSPC,   \
+      KC_LCTRL, KC_LGUI, KC_LALT,          KC_SPC,                                      KC_RALT,   MO(_V60_FN), LT(_COLORS, KC_APP),  KC_RCTRL \
       ),
 
   /* Keymap 1: FN Layer
@@ -97,24 +112,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _____,  BL_TOGG, BL_STEP, RGB_TOG, RGB_M_P, RGB_M_B, RGB_M_R,  _____,   _____,   _____,   _____,   _____, _____, _____, \
       _____,  RGB_RI,  RGB_GI,  RGB_BI,  RGB_HUI, RGB_SAI, RGB_VAI,  _____,   _____,   _____,   _____,   _____,   _____, _____, \
       _____,  RGB_RD,  RGB_GD,  RGB_BD,  RGB_HUD, RGB_SAD, RGB_VAD,  _____,   _____,   _____,   _____,   _____,  KC_MPRV, \
-      _____,  _____,   _____,  _____,  KC_MPLY, KC_VOLD, KC_VOLU,  KC_MUTE,   KC_MPRV,   KC_MNXT,   _____,   KC_MNXT, \
+      _____,  KC_F13,   KC_F14,  _____,  KC_MPLY, KC_VOLD, KC_VOLU,  KC_MUTE,   KC_MPRV,   KC_MNXT,   _____,   KC_MNXT, \
       _____,   _____,   _____,               _____,                                                      _____,   _____,  _____,  _____  \
       ),
 
-  /* [_DEF] = LAYOUT_60_ansi( */
-  /*     KC_GRV,    KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   KC_F12,  KC_DEL, \ */
-  /*     KC_TRNS,   KC_TRNS,  KC_UP, RGB_MOD,    RGB_RI,  RGB_GI,  RGB_BI,  KC_TRNS, KC_PSCR, KC_SLCK, KC_PAUS, KC_UP,    KC_TRNS,          KC_INS, \ */
-  /*     KC_TRNS,   KC_LEFT,  KC_DOWN,  KC_RIGHT, RGB_RD,  RGB_GD,  RGB_BD,   KC_TRNS, KC_HOME, KC_PGUP, KC_LEFT, KC_RIGHT,          KC_TRNS,          \ */
-  /*     KC_TRNS,   BL_DEC,  BL_TOGG,  BL_DEC,  BL_BRTG,  KC_VOLD,   KC_VOLU, KC_MUTE, KC_END,  KC_PGDN,  KC_DOWN,           KC_TRNS,  \ */
-  /*     KC_TRNS,   KC_TRNS,  KC_TRNS,            KC_TRNS,                                                           KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS */
-  /*     ), */
-
   [_COLORS] = LAYOUT_60_ansi(
       _____,  KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18,  KC_F19,   KC_F20,   KC_F21,   KC_F22,   KC_F23, KC_F24, _____, \
-      _____,  _____,  _____,  _____,  _____, _____, _____,  _____,   _____,   _____,   _____,   _____,   _____, _____, \
+      _____,  PENGUIN,  BOAR,  _____,  _____, _____, _____,  _____,   _____,   _____,   _____,   _____,   _____, _____, \
+      _____,  _____,  _____,  _____,  _____, _____, _____,  _____,   _____,   _____,   _____,   _____,  _____, \
+      _____,  _____,   _____,  _____,  _____, _____, _____,  _____,   _____,   _____,   _____,   _____, \
+      _____,   _____,   _____,               MO(_CONTR),                                                      _____,   _____,  _____,  _____  \
+      ),
+
+  [_CONTR] = LAYOUT_60_ansi(
+      _____,  KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18,  KC_F19,   KC_F20,   KC_F21,   KC_F22,   KC_F23, KC_F24, _____, \
+      _____,  _____,  _____,  _____,  _____, _____, _____,  _____,   _____,   _____,   TO(_POE),   _____,   _____, _____, \
       _____,  _____,  _____,  _____,  _____, _____, _____,  _____,   _____,   _____,   _____,   _____,  _____, \
       _____,  _____,   _____,  _____,  _____, _____, _____,  _____,   _____,   _____,   _____,   _____, \
       _____,   _____,   _____,               _____,                                                      _____,   _____,  _____,  _____  \
+      ),
+
+  [_POE] = LAYOUT_60_ansi(
+      KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, \
+      KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC,  TO(_DEF), \
+      XXXXX, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  \
+      KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT,   \
+      KC_LCTL, XXXXX, KC_LALT,          KC_SPC,                                      KC_RALT,   XXXXX, XXXXX,  KC_RCTL \
       ),
 };
 
@@ -173,35 +196,57 @@ void led_set_user(uint8_t usb_led) {
 /* void matrix_scan_user(void) { */
 /*   uint8_t layer = biton32(layer_state); */
 
+/*   /1* static uint32_t savedRgbMode; *1/ */
+/*   static uint16_t savedHue; */
+/*   static uint8_t savedSat; */
+/*   static uint8_t savedVal; */
+
+/*   /1* savedRgbMode = rgblight_get_mode(); *1/ */
+/*   savedHue = rgblight_get_hue(); */
+/*   savedSat = rgblight_get_sat(); */
+/*   savedVal = rgblight_get_val(); */
+
 /*   switch (layer) { */
-/*     case 0: */
-/*       rgblight_setrgb(0,240, 255); */
+/*     case _DEF: */
+/*       /1* rgblight_setrgb(0,240, 255); *1/ */
+/*       /1* rgblight_mode(savedRgbMode); *1/ */
+/*       rgblight_sethsv(savedHue, savedSat, savedVal); */
 /*       break; */
-/*     case 1: */
+
+/*     case _V60_FN: */
 /*       rgblight_setrgb(0,255, 100); */
 /*       break; */
-/*     case 2: */
+
+/*     case _RGB: */
 /*       rgblight_setrgb(10,255, 0); */
 /*       break; */
-/*     case 3: */
-/*       rgblight_setrgb(255,0, 85); */
+
+/*     case _COLORS: */
+/*       rgblight_setrgb(255,0, 255); */
 /*       break; */
-/*     case 4: */
+
+/*     case _CONTR: */
+/*       /1* rgblight_sethsv(196, 255, 120); *1/ */
 /*       rgblight_setrgb(240,255, 0); */
 /*       break; */
+
+/*     case _POE: */
+/*       rgblight_setrgb(255,0,0); */
+/*       break; */
+
 /*     default: */
 /*       // none */
 /*       break; */
 /*   } */
-/*   if ( SHIFTDOWN) { */
-/*     rgblight_setrgb(255,255, 255); */
-/*   } */
-/*   if ( CTRLDOWN) { */
-/*     rgblight_setrgb(240,255, 0); */
-/*   } */
-/*   if ( WINDOWN) { */
-/*     rgblight_setrgb(255,255, 255); */
-/*   } */
+/*   /1* if (SHIFTDOWN) { *1/ */
+/*   /1*   rgblight_setrgb(255,255, 255); *1/ */
+/*   /1* } *1/ */
+/*   /1* if (CTRLDOWN) { *1/ */
+/*   /1*   rgblight_setrgb(240,255, 0); *1/ */
+/*   /1* } *1/ */
+/*   /1* if (WINDOWN) { *1/ */
+/*   /1*   rgblight_setrgb(255,255, 255); *1/ */
+/*   /1* } *1/ */
 /* }; */
 
 /* bool process_record_user(uint16_t keycode, keyrecord_t *record) { */
@@ -246,3 +291,29 @@ void led_set_user(uint8_t usb_led) {
 /*   } */
 /* }; */
 
+/* bool process_record_user(uint16_t keycode, keyrecord_t *record) { */
+/*   static uint32_t savedRgbMode; */
+/*   static uint16_t savedHue; */
+/*   static uint8_t savedSat; */
+/*   static uint8_t savedVal; */
+
+/*   switch(keycode) { */
+/*     case KC_ESC: */
+/*       if (record->event.pressed) { */
+/*         savedRgbMode = rgblight_get_mode(); */
+/*         savedHue = rgblight_get_hue(); */
+/*         savedSat = rgblight_get_sat(); */
+/*         savedVal = rgblight_get_val(); */
+/*         rgblight_mode(1); */
+/*         /1* rgblight_setrgb(255, 0, 0); *1/ */
+/*         /1* rgblight_sethsv(196, 255, 255); *1/ */
+/*         rgblight_sethsv(196, 255, 120); */
+/*         /1* rgblight_sethsv(3, 255, 180); *1/ */
+/*       } else { */
+/*         rgblight_mode(savedRgbMode); */
+/*         rgblight_sethsv(savedHue, savedSat, savedVal); */
+/*       } */
+/*       return false; */
+/*   } */
+/*   return true; */
+/* } */

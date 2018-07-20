@@ -19,6 +19,9 @@
 
 #include "../../config.h"
 
+#define LSPO_KEY KC_9
+#define RSPC_KEY KC_0
+
 #define V60_POLESTAR
 
 // place overrides here
@@ -34,5 +37,9 @@
 #define RGBLIGHT_SAT_STEP 10
 // 17
 #define RGBLIGHT_VAL_STEP 10
+
+/* number of backlight levels */
+#undef BACKLIGHT_LEVELS
+#define BACKLIGHT_LEVELS 7
 
 #endif
